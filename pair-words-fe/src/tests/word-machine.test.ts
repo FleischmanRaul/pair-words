@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { WordMachine } from "./word-machine";
+import { WordMachine } from "../word-machine";
 
 describe("WordMachine", () => {
   it("should throw an error if no categories are selected", () => {

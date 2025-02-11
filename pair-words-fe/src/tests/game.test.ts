@@ -1,6 +1,6 @@
 import { describe, it, expect, beforeEach } from "vitest";
-import { WordMachine } from "./word-machine";
-import { GamePairNtoN } from "./game";
+import { WordMachine } from "../word-machine";
+import { GamePairNtoN } from "../game";
 
 describe("GamePairNtoN", () => {
   let wordMachine: WordMachine;
@@ -18,7 +18,6 @@ describe("GamePairNtoN", () => {
     expect(gameState.rightWords.length).toBe(3);
     expect(gameState.incorrectMatches).toBe(0);
     expect(gameState.correctMatches).toBe(0);
-    expect(gameState.isCorrect).toBe(false);
     expect(gameState.isGameOver).toBe(false);
   });
 
@@ -28,7 +27,9 @@ describe("GamePairNtoN", () => {
     let iterations = 0;
     while (gameState.isGameOver === false && iterations < maxIterations) {
       iterations++;
-      gameState = game.wordsPaired(gameState.leftWords[0], gameState.rightWords[0]);
+      const isCorrect = game.wordsPaired(0, 0);
+      expect(isCorrect === true);
+      gameState = game.getRefreshedState();
     }
     expect(gameState.incorrectMatches).toBe(0);
     expect(gameState.correctMatches).toBe(5);
@@ -44,10 +45,11 @@ describe("GamePairNtoN", () => {
       iterations++;
       const leftIndex = Math.floor(Math.random() * gameState.leftWords.length);
       const rightIndex = Math.floor(Math.random() * gameState.rightWords.length);
-      gameState = game.wordsPaired(gameState.leftWords[leftIndex], gameState.rightWords[rightIndex]);
-      if (gameState.isCorrect === false) {
+      const isCorrect = game.wordsPaired(leftIndex, rightIndex);
+      if (isCorrect === false) {
         incorrectGuesses++;
       }
+      gameState = game.getRefreshedState();
     }
     expect(gameState.incorrectMatches).toBe(incorrectGuesses);
     expect(gameState.correctMatches).toBe(50);
