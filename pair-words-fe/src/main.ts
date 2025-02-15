@@ -1,24 +1,19 @@
-import "./style.css";
-import typescriptLogo from "./typescript.svg";
-import viteLogo from "/vite.svg";
-import { setupCounter } from "./counter.ts";
+import { domElements } from "./dom-elements";
+import { gameUI } from "./game-ui";
 
-document.querySelector<HTMLDivElement>("#app")!.innerHTML = `
-  <div>
-    <a href="https://vite.dev" target="_blank">
-      <img src="${viteLogo}" class="logo" alt="Vite logo" />
-    </a>
-    <a href="https://www.typescriptlang.org/" target="_blank">
-      <img src="${typescriptLogo}" class="logo vanilla" alt="TypeScript logo" />
-    </a>
-    <h1>Vite + TypeScript</h1>
-    <div class="card">
-      <button id="counter" type="button"></button>
-    </div>
-    <p class="read-the-docs">
-      Click on the Vite and TypeScript logos to learn more
-    </p>
-  </div>
-`;
+document.getElementById("start")?.addEventListener("click", () => {
+  const pairTarget = domElements.pairTargetInput.value;
+  const rowNumber = domElements.rowNumberInput.value;
+  console.log(`Pair Target: ${pairTarget}, Row Number: ${rowNumber}`);
 
-setupCounter(document.querySelector<HTMLButtonElement>("#counter")!);
+  const container = domElements.checkboxContainer;
+  const selectedCategories = Array.from(
+    container.querySelectorAll<HTMLInputElement>('input[type="checkbox"]:checked')
+  ).map((checkbox) => checkbox.id);
+  console.log("Selected Categories:", selectedCategories);
+
+  domElements.menu?.classList.add("hidden");
+  domElements.game?.classList.remove("hidden");
+
+  new gameUI(selectedCategories, parseInt(pairTarget), parseInt(rowNumber));
+});

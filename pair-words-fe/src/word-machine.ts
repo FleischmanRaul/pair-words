@@ -5,45 +5,26 @@ type Dictionary = { [key: string]: string };
 
 export class WordMachine {
   private selectedWords: Dictionary;
-  constructor(
-    adjectives: boolean,
-    animals: boolean,
-    bodyParts: boolean,
-    business: boolean,
-    legal: boolean,
-    calendar: boolean,
-    verbs: boolean,
-    emotions: boolean,
-    personality: boolean
-  ) {
+  constructor(selectedCategories: string[]) {
     this.selectedWords = {};
-    if (adjectives) {
-      this.selectedWords = { ...this.selectedWords, ...words.adjectives_de_en };
-    }
-    if (animals) {
-      this.selectedWords = { ...this.selectedWords, ...words.animals_de_en };
-    }
-    if (bodyParts) {
-      this.selectedWords = { ...this.selectedWords, ...words.bodyParts_de_en };
-    }
-    if (business) {
-      this.selectedWords = { ...this.selectedWords, ...words.business_de_en };
-    }
-    if (legal) {
-      this.selectedWords = { ...this.selectedWords, ...words.legal_de_en };
-    }
-    if (calendar) {
-      this.selectedWords = { ...this.selectedWords, ...words.calendar_de_en };
-    }
-    if (verbs) {
-      this.selectedWords = { ...this.selectedWords, ...words.verbs_de_en };
-    }
-    if (emotions) {
-      this.selectedWords = { ...this.selectedWords, ...words.emotions_de_en };
-    }
-    if (personality) {
-      this.selectedWords = { ...this.selectedWords, ...words.personality_de_en };
-    }
+    const categories: { [key: string]: Dictionary } = {
+      adjectives: words.adjectives_de_en,
+      animals: words.animals_de_en,
+      bodyParts: words.bodyParts_de_en,
+      business: words.business_de_en,
+      legal: words.legal_de_en,
+      calendar: words.calendar_de_en,
+      verbs: words.verbs_de_en,
+      emotions: words.emotions_de_en,
+      personality: words.personality_de_en,
+    };
+
+    selectedCategories.forEach((category) => {
+      if (categories[category as keyof typeof categories]) {
+        this.selectedWords = { ...this.selectedWords, ...categories[category] };
+      }
+    });
+
     if (Object.keys(this.selectedWords).length === 0) {
       throw new Error("No words selected. Please enable at least one category.");
     }
