@@ -1,13 +1,46 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vite + TS</title>
-  </head>
-  <body>
-    <div id="app"></div>
-    <script type="module" src="/src/main.ts"></script>
-  </body>
+<head>
+  <link rel="stylesheet" href="./src/style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pair Words</title>
+  <link rel="icon" type="image/png" href="icon.png">
+</head>
+<body class="pattern">
+  <div class="container" id="menu">
+    <h1 style="align-self: center">Pair Words</h1>
+    <p>Choose game parameters and press "Start Game" to begin.</p>
+    <div class="form-group">
+      <label id="pairTarget">Number of words to match:</label>
+      <input type="number" id="pair-target" name="pairTarget" value="100">
+    </div>
+    <div class="form-group">
+      <label id="rowNumber">Number of rows:</label>
+      <input type="number" id="row-number" name="rowNumber" value="5">
+    </div>
+    <div id="checkbox-container" class="container">
+      <p>Choose word categories:</p>
+      <label>Adjectives <input type="checkbox" id="adjectives" name="adjectives" checked></label>
+      <label>Animals <input type="checkbox" id="animals" name="animals" checked></label>
+      <label>Body Parts <input type="checkbox" id="bodyParts" name="bodyParts" checked></label>
+      <label>Business <input type="checkbox" id="business" name="business" checked></label>
+      <label>Legal <input type="checkbox" id="legal" name="legal" checked></label>
+      <label>Calendar <input type="checkbox" id="calendar" name="calendar" checked></label>
+      <label>Verbs <input type="checkbox" id="verbs" name="verbs" checked></label>
+      <label>Emotions <input type="checkbox" id="emotions" name="emotions" checked></label>
+      <label>Personality <input type="checkbox" id="personality" name="personality" checked></label>
+    </div>
+    <button id="start">Start Game</button></div>
+  </div>
+  <div id="game" class="hidden game">
+    <div id="game-toolbar"></div>
+    <div id="game-board" class="game-board"></div>
+  </div>
+  <script type="module" src="./src/main.ts"></script>
+</body>
+<!-- <footer>
+  <p>&copy; 2025 fra. All rights reserved.</p>
+  <p>For support contact: fleischman.raul@gmail.com</p>
+</footer> -->
 </html>

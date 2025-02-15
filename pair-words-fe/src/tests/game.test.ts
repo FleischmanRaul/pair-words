@@ -8,7 +8,7 @@ describe("GamePairNtoN", () => {
   const maxIterations = 10000;
 
   beforeEach(() => {
-    wordMachine = new WordMachine(true, false, false, false, false, false, false, false, false);
+    wordMachine = new WordMachine(["adjectives"]);
   });
 
   it("should initialize the game correctly", () => {

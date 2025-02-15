@@ -3,15 +3,16 @@ import { shuffleStrings } from "./utils";
 
 type Dictionary = { [key: string]: string };
 
-type GameState = {
+export type GameState = {
   leftWords: string[];
   rightWords: string[];
   incorrectMatches: number;
   correctMatches: number;
   isGameOver: boolean;
+  elapsedTime: number;
 };
 
-type GameStatistics = {
+export type GameStatistics = {
   correct: number;
   incorrect: number;
   elapsedTime: number;
@@ -33,6 +34,7 @@ export class GamePairNtoN {
   private rightWords: string[] = [];
   private incorrectMatches: number = 0;
   private correctMatches: number = 0;
+  private getStateCounter: number = 0;
   // game statistics
   private startTime: number = 0;
   private endTime: number = 0;
@@ -62,6 +64,7 @@ export class GamePairNtoN {
       incorrectMatches: 0,
       correctMatches: 0,
       isGameOver: false,
+      elapsedTime: 0,
     };
   }
 
@@ -92,19 +95,24 @@ export class GamePairNtoN {
   }
 
   getRefreshedState(): GameState {
-    const emptyCount = this.leftWords.filter((word) => word === "").length;
-    if (emptyCount > 0) {
-      const newPairs = this.wordMachine.getWords(emptyCount);
-      const newLeftWords = shuffleStrings(Object.keys(newPairs));
-      const newRightWords = shuffleStrings(Object.values(newPairs));
+    if (this.getStateCounter == 10 && this.correctMatches + this.rows <= this.targetPairs) {
+      this.getStateCounter = 0;
+      const emptyCount = this.leftWords.filter((word) => word === "").length;
+      if (emptyCount > 0) {
+        const newPairs = this.wordMachine.getWords(emptyCount);
+        const newLeftWords = shuffleStrings(Object.keys(newPairs));
+        const newRightWords = shuffleStrings(Object.values(newPairs));
 
-      let leftIndex = 0;
-      let rightIndex = 0;
+        let leftIndex = 0;
+        let rightIndex = 0;
 
-      this.leftWords = this.leftWords.map((word) => (word === "" ? newLeftWords[leftIndex++] : word));
-      this.rightWords = this.rightWords.map((word) => (word === "" ? newRightWords[rightIndex++] : word));
+        this.leftWords = this.leftWords.map((word) => (word === "" ? newLeftWords[leftIndex++] : word));
+        this.rightWords = this.rightWords.map((word) => (word === "" ? newRightWords[rightIndex++] : word));
 
-      Object.assign(this.words, newPairs);
+        Object.assign(this.words, newPairs);
+      }
+    } else {
+      this.getStateCounter++;
     }
 
     const isGameOver = this.correctMatches === this.targetPairs;
@@ -119,6 +127,7 @@ export class GamePairNtoN {
       incorrectMatches: this.incorrectMatches,
       correctMatches: this.correctMatches,
       isGameOver,
+      elapsedTime: (Date.now() - this.startTime) / 1000,
     };
   }
 
