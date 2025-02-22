@@ -1,4 +1,4 @@
-import { GamePairNtoN, GameState } from "./game";
+import { GamePairNtoN, GameState, GameStatistics } from "./game";
 import { WordMachine } from "./word-machine";
 import { domElements } from "./dom-elements";
 
@@ -65,6 +65,7 @@ export class gameUI {
       domElements.menu?.classList.remove("hidden");
     });
     domElements.gameToolbar?.appendChild(GameToolbarElements.returnButton);
+    domElements.gameToolbar?.classList.remove("hidden");
     return GameToolbarElements;
   }
 
@@ -129,6 +130,7 @@ export class gameUI {
     }
     domElements.gameBoard?.appendChild(gameBoardElements.leftColumn);
     domElements.gameBoard?.appendChild(gameBoardElements.rightColumn);
+    domElements.gameBoard?.classList.remove("hidden");
     return gameBoardElements;
   }
 
@@ -162,13 +164,13 @@ export class gameUI {
 
       if (this.gameState.isGameOver) {
         clearInterval(this.intervalId);
+        this.showGameResults();
         console.log("Game over!");
       }
     }, 300);
   }
 
   private handleSelection(leftButton: Element, rightButton: Element) {
-    console.log(`Pair selected: ${leftButton.id} and ${rightButton.id}`);
     const isPaired = this.game.wordsPaired(parseInt(leftButton.id), parseInt(rightButton.id));
     const actionClass = isPaired ? "green" : "red";
     const timeoutClass = isPaired ? "hide" : actionClass;
@@ -189,5 +191,53 @@ export class gameUI {
 
   stopGame() {
     clearInterval(this.intervalId);
+  }
+
+  showGameResults() {
+    const gameStatistics: GameStatistics = this.game.getGameStatistics();
+    domElements.gameToolbar?.classList.add("hidden");
+    domElements.gameBoard?.classList.add("hidden");
+    if (domElements.gameResults) {
+      domElements.gameResults.innerHTML = "";
+    }
+
+    const text = document.createElement("div");
+    text.textContent = `Correct Answers: ${gameStatistics.correct}`;
+    domElements.gameResults?.appendChild(text);
+    const incorrectText = document.createElement("div");
+    incorrectText.textContent = `Incorrect Answers: ${gameStatistics.incorrect}`;
+    domElements.gameResults?.appendChild(incorrectText);
+
+    const elapsedTimeText = document.createElement("div");
+    elapsedTimeText.textContent = `Elapsed Time: ${gameStatistics.elapsedTime} seconds`;
+    domElements.gameResults?.appendChild(elapsedTimeText);
+
+    const mistakesText = document.createElement("div");
+    mistakesText.textContent = "Mistakes:";
+    domElements.gameResults?.appendChild(mistakesText);
+
+    if (gameStatistics.mistakes.length === 0) {
+      const noMistakesText = document.createElement("div");
+      noMistakesText.textContent = "No mistakes!";
+      domElements.gameResults?.appendChild(noMistakesText);
+    } else {
+      const mistakesList = document.createElement("ul");
+      gameStatistics.mistakes.forEach((mistake) => {
+        const listItem = document.createElement("li");
+        listItem.textContent = `Original: ${mistake.original}, Wrong Translation: ${mistake.wrongTranslation}, Correct Translation: ${mistake.correctTranslation}`;
+        mistakesList.appendChild(listItem);
+      });
+      domElements.gameResults?.appendChild(mistakesList);
+    }
+
+    const returnButton = document.createElement("button");
+    returnButton.textContent = "Return to Menu";
+    returnButton.addEventListener("click", () => {
+      domElements.gameResults?.classList.add("hidden");
+      domElements.game?.classList.add("hidden");
+      domElements.menu?.classList.remove("hidden");
+    });
+    domElements.gameResults?.appendChild(returnButton);
+    domElements.gameResults?.classList.remove("hidden");
   }
 }

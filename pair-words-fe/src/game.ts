@@ -23,7 +23,6 @@ type Mistake = { original: string; wrongTranslation: string; correctTranslation:
 
 export class GamePairNtoN {
   // TODO: stop on time
-  // TODO: when words are running out, don't show new ones
 
   private wordMachine: WordMachine;
   private targetPairs: number;
@@ -96,6 +95,7 @@ export class GamePairNtoN {
 
   getRefreshedState(): GameState {
     if (this.getStateCounter == 10 && this.correctMatches + this.rows <= this.targetPairs) {
+      console.log(this.rows);
       this.getStateCounter = 0;
       const emptyCount = this.leftWords.filter((word) => word === "").length;
       if (emptyCount > 0) {

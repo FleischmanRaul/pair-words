@@ -7,4 +7,5 @@ export const domElements = {
   game: document.getElementById("game"),
   gameToolbar: document.getElementById("game-toolbar"),
   gameBoard: document.getElementById("game-board"),
+  gameResults: document.getElementById("game-results"),
 };
