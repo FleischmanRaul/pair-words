@@ -22,12 +22,13 @@ export type GameStatistics = {
 type Mistake = { original: string; wrongTranslation: string; correctTranslation: string };
 
 export class GamePairNtoN {
-  // TODO: stop on time
+  // TODO: stop on time limit
 
   private wordMachine: WordMachine;
   private targetPairs: number;
   private rows: number;
   private words: Dictionary = {};
+  private refreshRate: number;
   // game state
   private leftWords: string[] = [];
   private rightWords: string[] = [];
@@ -39,7 +40,7 @@ export class GamePairNtoN {
   private endTime: number = 0;
   private mistakes: Mistake[] = [];
 
-  constructor(wordMachine: WordMachine, targetPairs: number, rows: number) {
+  constructor(wordMachine: WordMachine, targetPairs: number, rows: number, refreshRate: number = 10) {
     if (targetPairs < 1 || targetPairs > 500) {
       throw new Error("targetPairs must be between 1 and 500.");
     }
@@ -49,6 +50,7 @@ export class GamePairNtoN {
     this.wordMachine = wordMachine;
     this.targetPairs = targetPairs;
     this.rows = rows;
+    this.refreshRate = refreshRate;
   }
 
   startGame(): GameState {
@@ -94,8 +96,7 @@ export class GamePairNtoN {
   }
 
   getRefreshedState(): GameState {
-    if (this.getStateCounter == 10 && this.correctMatches + this.rows <= this.targetPairs) {
-      console.log(this.rows);
+    if (this.getStateCounter == this.refreshRate && this.correctMatches + this.rows <= this.targetPairs) {
       this.getStateCounter = 0;
       const emptyCount = this.leftWords.filter((word) => word === "").length;
       if (emptyCount > 0) {

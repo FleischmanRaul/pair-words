@@ -8,7 +8,7 @@ describe("GamePairNtoN", () => {
   const maxIterations = 10000;
 
   beforeEach(() => {
-    wordMachine = new WordMachine(["adjectives"]);
+    wordMachine = new WordMachine(1);
   });
 
   it("should initialize the game correctly", () => {
@@ -37,7 +37,7 @@ describe("GamePairNtoN", () => {
   });
 
   it("3 rows game with random pairing", () => {
-    game = new GamePairNtoN(wordMachine, 50, 3);
+    game = new GamePairNtoN(wordMachine, 50, 3, 0);
     let gameState = game.startGame();
     let incorrectGuesses = 0;
     let iterations = 0;
@@ -45,6 +45,9 @@ describe("GamePairNtoN", () => {
       iterations++;
       const leftIndex = Math.floor(Math.random() * gameState.leftWords.length);
       const rightIndex = Math.floor(Math.random() * gameState.rightWords.length);
+      if (gameState.leftWords[leftIndex] === "" || gameState.rightWords[rightIndex] === "") {
+        continue;
+      }
       const isCorrect = game.wordsPaired(leftIndex, rightIndex);
       if (isCorrect === false) {
         incorrectGuesses++;
