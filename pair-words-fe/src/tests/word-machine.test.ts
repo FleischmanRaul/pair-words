@@ -28,9 +28,15 @@ describe("WordMachine", () => {
     expect(uniqueKeys.size).toBe(keys.length);
   });
 
-  it("should return the correct number of selected words", () => {
+  it("should return the correct number of selected words for level 1", () => {
     const wm = new WordMachine(1);
     const numberOfSelectedWords = wm.getNumberOfSelectedWords();
     expect(numberOfSelectedWords).toEqual(50);
+  });
+
+  it("should return the correct number of selected words for level 20", () => {
+    const wm = new WordMachine(20);
+    const numberOfSelectedWords = wm.getNumberOfSelectedWords();
+    expect(numberOfSelectedWords).toEqual(49);
   });
 });

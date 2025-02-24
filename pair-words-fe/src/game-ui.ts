@@ -21,8 +21,8 @@ export class gameUI {
   private GameToolbarElements: GameToolbarElements;
   private intervalId: number = 0;
 
-  constructor(selectedCategories: string[], pairTarget: number, rowNumber: number) {
-    const wordMachine = new WordMachine(selectedCategories);
+  constructor(level: number, pairTarget: number, rowNumber: number) {
+    const wordMachine = new WordMachine(level);
     this.game = new GamePairNtoN(wordMachine, pairTarget, rowNumber);
     this.gameState = this.game.startGame();
     this.GameToolbarElements = this.setupToolbar();

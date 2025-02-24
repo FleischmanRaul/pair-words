@@ -13,23 +13,15 @@
     <p>Choose game parameters and press "Start Game" to begin.</p>
     <div class="form-group">
       <label id="pairTarget">Number of words to match:</label>
-      <input type="number" id="pair-target" name="pairTarget" value="100">
+      <input type="number" id="pair-target" name="pairTarget" value="100" min="1" max="500">
     </div>
     <div class="form-group">
       <label id="rowNumber">Number of rows:</label>
-      <input type="number" id="row-number" name="rowNumber" value="5">
+      <input type="number" id="row-number" name="rowNumber" value="5" min="1" max="10">
     </div>
-    <div id="checkbox-container" class="container">
-      <p>Choose word categories:</p>
-      <label>Adjectives <input type="checkbox" id="adjectives" name="adjectives" checked></label>
-      <label>Animals <input type="checkbox" id="animals" name="animals" checked></label>
-      <label>Body Parts <input type="checkbox" id="bodyParts" name="bodyParts" checked></label>
-      <label>Business <input type="checkbox" id="business" name="business" checked></label>
-      <label>Legal <input type="checkbox" id="legal" name="legal" checked></label>
-      <label>Calendar <input type="checkbox" id="calendar" name="calendar" checked></label>
-      <label>Verbs <input type="checkbox" id="verbs" name="verbs" checked></label>
-      <label>Emotions <input type="checkbox" id="emotions" name="emotions" checked></label>
-      <label>Personality <input type="checkbox" id="personality" name="personality" checked></label>
+    <div class="form-group">
+      <label id="rowNumber">Select Level:</label>
+      <input type="number" id="level" name="level" value="1" min="1" max="20">
     </div>
     <button id="start">Start Game</button></div>
   </div>
