@@ -96,9 +96,10 @@ export class GamePairNtoN {
   }
 
   getRefreshedState(): GameState {
-    if (this.getStateCounter == this.refreshRate && this.correctMatches + this.rows <= this.targetPairs) {
+    const emptyCount = this.leftWords.filter((word) => word === "").length;
+    const currentPairs = this.correctMatches + this.rows - emptyCount;
+    if (this.getStateCounter == this.refreshRate && currentPairs <= this.targetPairs) {
       this.getStateCounter = 0;
-      const emptyCount = this.leftWords.filter((word) => word === "").length;
       if (emptyCount > 0) {
         const newPairs = this.wordMachine.getWords(emptyCount);
         const newLeftWords = shuffleStrings(Object.keys(newPairs));
@@ -128,7 +129,7 @@ export class GamePairNtoN {
       incorrectMatches: this.incorrectMatches,
       correctMatches: this.correctMatches,
       isGameOver,
-      elapsedTime: (Date.now() - this.startTime) / 1000,
+      elapsedTime: Math.floor((Date.now() - this.startTime) / 1000),
     };
   }
 

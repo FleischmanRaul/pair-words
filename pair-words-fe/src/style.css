@@ -3,7 +3,12 @@
   --secondary-color: #eedaaf;
   --third-color: #78b428;
   --fourth-color: #383de0;
+  --fifth-color: #f9a825;
+  --sixth-color:rgb(173, 42, 157);
   --text-color: #160604;
+  --primary-hover: #45a049;
+  --shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  --border-radius: 12px;
 }
 
 .pattern {
@@ -15,14 +20,16 @@
 }
 
 body {
- color: var(--text-color);
- display: flex;
- justify-content: center;
- align-items: center;
- height: 100vh;
- margin: 0;
- font-size: 1.4em;
-font-family: Helvetica, Arial, sans-serif;
+  color: var(--text-color);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+  font-size: 1.4em;
+  font-family: Helvetica, Arial, sans-serif;
+  flex-direction: column;
+  min-height: 100vh;
 }
 
 input[type="number"] {
@@ -80,9 +87,13 @@ input[type="checkbox"] {
 }
 
 .game {
-  flex-direction: column;
-  width: 30%;
-  gap: 10px;
+  width: 100%;
+  max-width: 800px;
+  background-color: var(--card-bg);
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow);
+  padding: 20px;
+  margin-bottom: 20px;
 }
 
 .game .game-board {
@@ -94,12 +105,22 @@ input[type="checkbox"] {
 .game .column {
   display: flex;
   flex-direction: column;
+  width: 48%;
 }
 
 .game button {
-  width: 200px;
-  height: 100px;
-  transition: background-color 0.3s;
+  background-color: var(--sixth-color);
+  color: white;
+  text-align: center;
+  padding: 15px;
+  margin: 10px 0;
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  box-shadow: var(--shadow);
+  transition: transform 0.2s, background-color 0.3s;
+  font-size: 18px;
+  font-weight: 500;
+  width: 100%;
 }
 
 .game .blue {
@@ -109,6 +130,7 @@ input[type="checkbox"] {
 
 .game .red {
   background-color: red;
+  animation: shake 0.5s;
   color: white;
 }
 
@@ -158,4 +180,67 @@ input[type="checkbox"] {
   width: 100px;
   text-align: center;
   font-size: 1.2em;
+}
+
+.score-board {
+  background-color: var(--fifth-color);
+  color: white;
+  text-align: center;
+  padding: 15px;
+  border-radius: var(--border-radius);
+  margin-bottom: 20px;
+  box-shadow: var(--shadow);
+}
+
+.score-item {
+  margin: 5px 0;
+  font-size: 18px;
+  font-weight: 500;
+}
+
+.return-button {
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  font-size: 18px;
+  cursor: pointer;
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow);
+  margin: 20px 0;
+  transition: background-color 0.3s, transform 0.2s;
+  font-weight: 500;
+  width: 100%;
+}
+
+.btn-return:hover {
+  background-color: var(--primary-hover);
+  transform: translateY(-2px);
+}
+
+.btn-return:active {
+  transform: translateY(0);
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+  20%, 40%, 60%, 80% { transform: translateX(5px); }
+}
+
+.game-title {
+  color: var(--primary-color);
+  font-size: 28px;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+@media (max-width: 600px) {
+  .word-container {
+    flex-direction: column;
+  }
+
+  .word-column {
+    width: 100%;
+  }
 }

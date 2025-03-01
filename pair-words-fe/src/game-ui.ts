@@ -44,6 +44,7 @@ export class gameUI {
     GameToolbarElements.correctAnswers = document.createElement("div");
     GameToolbarElements.correctAnswers.id = "correct-answers";
     GameToolbarElements.correctAnswers.textContent = "Correct Answers: 0";
+    GameToolbarElements.correctAnswers.classList.add("score-item");
     domElements.gameToolbar?.appendChild(GameToolbarElements.correctAnswers);
 
     GameToolbarElements.incorrectAnswers = document.createElement("div");
@@ -59,6 +60,7 @@ export class gameUI {
     GameToolbarElements.returnButton = document.createElement("button");
     GameToolbarElements.returnButton.id = "return-button";
     GameToolbarElements.returnButton.textContent = "Return";
+    GameToolbarElements.returnButton.classList.add("return-button");
     GameToolbarElements.returnButton.addEventListener("click", () => {
       this.stopGame();
       domElements.game?.classList.add("hidden");
