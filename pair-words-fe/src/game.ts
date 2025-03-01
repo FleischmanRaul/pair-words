@@ -98,7 +98,7 @@ export class GamePairNtoN {
   getRefreshedState(): GameState {
     const emptyCount = this.leftWords.filter((word) => word === "").length;
     const currentPairs = this.correctMatches + this.rows - emptyCount;
-    if (this.getStateCounter == this.refreshRate && currentPairs <= this.targetPairs) {
+    if (this.getStateCounter == this.refreshRate && currentPairs < this.targetPairs) {
       this.getStateCounter = 0;
       if (emptyCount > 0) {
         const newPairs = this.wordMachine.getWords(emptyCount);

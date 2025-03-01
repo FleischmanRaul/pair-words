@@ -91,7 +91,6 @@ input[type="checkbox"] {
   max-width: 800px;
   background-color: var(--card-bg);
   border-radius: var(--border-radius);
-  box-shadow: var(--shadow);
   padding: 20px;
   margin-bottom: 20px;
 }
@@ -243,4 +242,70 @@ input[type="checkbox"] {
   .word-column {
     width: 100%;
   }
+}
+
+.game-footer {
+  margin-top: 30px;
+  background-color: var(--secondary-color);
+  border-radius: 12px;
+  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-size: medium;
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
+}
+
+.footer-content {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+}
+
+.footer-section {
+  flex: 1 1 200px;
+  min-width: 0;
+}
+
+.contact a {
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+.privacy-note {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  color: #555;
+  font-style: italic;
+}
+
+.cookie-icon {
+  font-size: 1.2em;
+  animation: bounce 2s infinite;
+  display: inline-block;
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+}
+
+/* Making the footer responsive */
+@media (max-width: 600px) {
+  .footer-content {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .footer-section {
+    padding: 5px 0;
+  }
+}
+
+#game, #menu {
+  flex: 1;
 }
