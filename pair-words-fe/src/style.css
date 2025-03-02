@@ -66,7 +66,6 @@ label {
   display: block;
   margin-bottom: 8px;
   font-weight: 500;
-  color: #444;
 }
 
 .input-wrapper {
@@ -159,10 +158,10 @@ label {
 .game {
   width: 100%;
   max-width: 800px;
-  background-color: var(--card-bg);
-  border-radius: var(--border-radius);
   padding: 20px;
   margin-bottom: 20px;
+  margin-top: 20px;
+  border-radius: var(--border-radius);
 }
 
 .game .game-board {
@@ -182,7 +181,7 @@ label {
   color: white;
   text-align: center;
   padding: 15px;
-  margin: 10px 0;
+  margin: 10px;
   border-radius: var(--border-radius);
   cursor: pointer;
   box-shadow: var(--shadow);
@@ -217,38 +216,14 @@ label {
 }
 
 .game-results {
+  background-color: rgba(255, 187, 85, 0.9);
+  border-radius: 16px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+  padding: 24px;
+  width: 90%;
+  max-height: 90vh; /* Limit height to 90% of viewport height */
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: 20px;
-  margin-top: 20px;
-}
-
-.game-results h2 {
-  color: var(--primary-color);
-  font-size: 2em;
-  margin: 0;
-}
-
-.game-results p {
-  color: var(--text-color);
-  font-size: 1.2em;
-  margin: 0;
-}
-
-.game-results .score {
-  display: flex;
-  justify-content: space-around;
-  width: 100%;
-}
-
-.game-results .score div {
-  background-color: var(--secondary-color);
-  padding: 10px;
-  border-radius: 5px;
-  width: 100px;
-  text-align: center;
-  font-size: 1.2em;
 }
 
 .score-board {
@@ -378,4 +353,108 @@ label {
 
 #game, #menu {
   flex: 1;
+}
+
+.mistakes-header {
+  text-align: left;
+  margin: 24px 0 12px 0;
+  font-size: 22px;
+  font-weight: bold;
+  color: #333;
+}
+
+.mistakes-list {
+  background-color: rgba(255, 255, 255, 0.7);
+  border-radius: 10px;
+  padding: 16px;
+  margin-bottom: 24px;
+  text-align: left;
+}
+
+.mistake-item {
+  margin-bottom: 12px;
+  line-height: 1.5;
+}
+
+.mistake-item:last-child {
+  margin-bottom: 0;
+}
+
+.empty-mistakes {
+  font-style: italic;
+  color: #666;
+  text-align: center;
+  padding: 20px;
+}
+
+.highlight {
+  background-color: #f3e9ab;
+  padding: 2px 5px;
+  border-radius: 4px;
+  font-weight: bold;
+}
+
+.stats-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 24px;
+}
+
+.stat-item {
+  display: flex;
+  justify-content: space-between;
+  background-color: rgba(255, 255, 255, 0.6);
+  padding: 12px 20px;
+  border-radius: 10px;
+  font-size: 18px;
+  align-items: center;
+}
+
+.stat-value {
+  font-weight: bold;
+  color: #8e24aa;
+}
+
+.score-badge {
+  display: inline-block;
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 16px;
+  background-color: rgba(255, 255, 255, 0.8);
+  padding: 10px 24px;
+  border-radius: 50px;
+  color: #9c27b0;
+}
+
+.performance-message {
+  font-size: 18px;
+  margin-bottom: 32px;
+  color: #333;
+}
+
+.score-header {
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.scrollable-content {
+  flex: 1;
+  overflow-y: auto; /* Make this section scrollable */
+  padding-right: 10px; /* Add padding for scrollbar */
+}
+
+/* Scrollbar styling */
+.scrollable-content::-webkit-scrollbar {
+  width: 8px;
+}
+
+.scrollable-content::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.4);
+  border-radius: 10px;
+}
+
+.scrollable-content::-webkit-scrollbar-thumb {
+  background-color: #9c27b0;
+  border-radius: 10px;
 }

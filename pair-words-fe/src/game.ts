@@ -19,7 +19,7 @@ export type GameStatistics = {
   mistakes: Mistake[];
 };
 
-type Mistake = { original: string; wrongTranslation: string; correctTranslation: string };
+export type Mistake = { original: string; wrongTranslation: string; correctTranslation: string };
 
 export class GamePairNtoN {
   // TODO: stop on time limit

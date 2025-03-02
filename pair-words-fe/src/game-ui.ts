@@ -1,4 +1,4 @@
-import { GamePairNtoN, GameState, GameStatistics } from "./game";
+import { GamePairNtoN, GameState, GameStatistics, Mistake } from "./game";
 import { WordMachine } from "./word-machine";
 import { domElements } from "./dom-elements";
 
@@ -203,34 +203,26 @@ export class gameUI {
       domElements.gameResults.innerHTML = "";
     }
 
-    const text = document.createElement("div");
-    text.textContent = `Correct Answers: ${gameStatistics.correct}`;
-    domElements.gameResults?.appendChild(text);
-    const incorrectText = document.createElement("div");
-    incorrectText.textContent = `Incorrect Answers: ${gameStatistics.incorrect}`;
-    domElements.gameResults?.appendChild(incorrectText);
+    const headerContainer = document.createElement("div");
+    headerContainer.classList.add("score-header");
+    generateResultsHeader(headerContainer, gameStatistics);
+    domElements.gameResults?.appendChild(headerContainer);
 
-    const elapsedTimeText = document.createElement("div");
-    elapsedTimeText.textContent = `Elapsed Time: ${gameStatistics.elapsedTime} seconds`;
-    domElements.gameResults?.appendChild(elapsedTimeText);
+    const statsContainer = document.createElement("div");
+    statsContainer.classList.add("stats-container");
+    generateStatsDisplay(statsContainer, gameStatistics);
+    domElements.gameResults?.appendChild(statsContainer);
+
+    const mistakeHeader = document.createElement("h2");
+    mistakeHeader.textContent = "Your Mistakes:";
+    mistakeHeader.className = "mistakes-header";
+    domElements.gameResults?.appendChild(mistakeHeader);
 
     const mistakesText = document.createElement("div");
-    mistakesText.textContent = "Mistakes:";
+    mistakesText.classList.add("mistakes-list");
+    mistakesText.classList.add("scrollable-content");
+    generateMistakesList(mistakesText, gameStatistics.mistakes);
     domElements.gameResults?.appendChild(mistakesText);
-
-    if (gameStatistics.mistakes.length === 0) {
-      const noMistakesText = document.createElement("div");
-      noMistakesText.textContent = "No mistakes!";
-      domElements.gameResults?.appendChild(noMistakesText);
-    } else {
-      const mistakesList = document.createElement("ul");
-      gameStatistics.mistakes.forEach((mistake) => {
-        const listItem = document.createElement("li");
-        listItem.textContent = `Original: ${mistake.original}, Wrong Translation: ${mistake.wrongTranslation}, Correct Translation: ${mistake.correctTranslation}`;
-        mistakesList.appendChild(listItem);
-      });
-      domElements.gameResults?.appendChild(mistakesList);
-    }
 
     const returnButton = document.createElement("button");
     returnButton.textContent = "Return to Menu";
@@ -242,4 +234,126 @@ export class gameUI {
     domElements.gameResults?.appendChild(returnButton);
     domElements.gameResults?.classList.remove("hidden");
   }
+}
+
+/**
+ * Generates and updates the header section of the game results
+ * @param headerContainer - The container element for the header content
+ * @param result - Object containing game result data
+ * @param title - Optional custom title (defaults to "Game Results")
+ */
+function generateResultsHeader(
+  headerContainer: HTMLElement,
+  result: GameStatistics,
+  title: string = "Game Results"
+): void {
+  // Clear existing content
+  headerContainer.innerHTML = "";
+
+  // Calculate total questions and percentage
+  const totalQuestions = result.correct + result.incorrect;
+  const correctPercentage = totalQuestions > 0 ? Math.round((result.correct / totalQuestions) * 100) : 0;
+
+  // Create title
+  const titleElement = document.createElement("h1");
+  titleElement.textContent = title;
+
+  // Create score badge
+  const scoreBadge = document.createElement("div");
+  scoreBadge.className = "score-badge";
+  scoreBadge.id = "score-badge";
+  scoreBadge.textContent = `Score: ${result.correct}/${totalQuestions}`;
+
+  // Create performance message
+  const performanceMessage = document.createElement("div");
+  performanceMessage.className = "performance-message";
+  performanceMessage.id = "performance-message";
+
+  // Set appropriate message based on score percentage
+  if (correctPercentage === 100) {
+    performanceMessage.textContent = "Perfect score! Amazing work!";
+  } else if (correctPercentage >= 80) {
+    performanceMessage.textContent = "Excellent job! Keep it up!";
+  } else if (correctPercentage >= 60) {
+    performanceMessage.textContent = "Good job! You're making progress with German!";
+  } else if (correctPercentage >= 40) {
+    performanceMessage.textContent = "Nice effort! Keep practicing these words.";
+  } else {
+    performanceMessage.textContent = "Keep practicing! You'll improve with time.";
+  }
+
+  // Append all elements to the header container
+  headerContainer.appendChild(titleElement);
+  headerContainer.appendChild(scoreBadge);
+  headerContainer.appendChild(performanceMessage);
+}
+
+/**
+ * Generates and updates the game statistics display
+ * @param statsContainer - The container element for all stats
+ * @param stats - Object containing game statistics
+ */
+function generateStatsDisplay(statsContainer: HTMLElement, stats: GameStatistics): void {
+  // Clear existing content
+  statsContainer.innerHTML = "";
+
+  // Calculate total questions and percentage
+  const totalQuestions = stats.correct + stats.incorrect;
+  const correctPercentage = totalQuestions > 0 ? Math.round((stats.correct / totalQuestions) * 100) : 0;
+
+  // Define the stats to display
+  const statsToDisplay = [
+    { label: "Correct Answers:", value: stats.correct.toString() },
+    { label: "Incorrect Answers:", value: stats.incorrect.toString() },
+    { label: "Correct Percentage:", value: `${correctPercentage}%` },
+    { label: "Elapsed Time:", value: `${stats.elapsedTime.toFixed(1)} seconds` },
+  ];
+
+  // Create and append each stat item
+  statsToDisplay.forEach((item) => {
+    const statItem = document.createElement("div");
+    statItem.className = "stat-item";
+
+    const labelSpan = document.createElement("span");
+    labelSpan.textContent = item.label;
+
+    const valueSpan = document.createElement("span");
+    valueSpan.className = "stat-value";
+    valueSpan.textContent = item.value;
+
+    statItem.appendChild(labelSpan);
+    statItem.appendChild(valueSpan);
+
+    statsContainer.appendChild(statItem);
+  });
+}
+
+/**
+ * Generates mistake list items and appends them to a parent element
+ * @param parentElement - The DOM element to append mistake items to
+ * @param mistakes - Array of mistake objects
+ * @returns The number of mistakes added
+ */
+function generateMistakesList(parentElement: HTMLElement, mistakes: Mistake[]): void {
+  parentElement.innerHTML = "";
+
+  if (mistakes.length === 0) {
+    const emptyEl = document.createElement("div");
+    emptyEl.className = "empty-mistakes";
+    emptyEl.textContent = "No mistakes - perfect score!";
+    parentElement.appendChild(emptyEl);
+  }
+
+  // Add each mistake as a formatted list item
+  mistakes.forEach((mistake) => {
+    const mistakeItem = document.createElement("div");
+    mistakeItem.className = "mistake-item";
+
+    // Create the formatted mistake text with highlights
+    mistakeItem.innerHTML = `• Original: <span class="highlight">${mistake.original}</span>,
+                           Wrong: <span class="highlight">${mistake.wrongTranslation}</span>,
+                           Correct: <span class="highlight">${mistake.correctTranslation}</span>`;
+
+    parentElement.appendChild(mistakeItem);
+  });
 }
