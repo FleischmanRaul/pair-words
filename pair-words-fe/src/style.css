@@ -57,31 +57,101 @@ button:hover {
   background-color: var(--fourth-color);
 }
 
-.container {
-  display: flex;
-  flex-direction: column;
-  align-items: left;
-  gap: 10px;
-}
-
+/* Form elements */
 .form-group {
+  margin-bottom: 20px;
+}
+
+label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 500;
+  color: #444;
+}
+
+.input-wrapper {
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  gap: 8px;
+  height: 70px;
 }
 
-.form-group label {
-  float: left;
+.styled-input {
+  flex: 1;
+  text-align: center;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 16px;
+  transition: border-color 0.3s, box-shadow 0.3s;
 }
 
-.form-group input {
-  float: right;
-}
-input[type="checkbox"] {
-  width: 1.4em;
-  height: 1.4em;
+.styled-input:focus {
+  outline: none;
+  border-color: #4caf50;
+  box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.2);
 }
 
+/* Remove spinner buttons from number inputs */
+.styled-input::-webkit-outer-spin-button,
+.styled-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.input-control {
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #e8f5e9;
+  border: 1px solid #c8e6c9;
+  color: #4caf50;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 18px;
+  font-weight: bold;
+  transition: all 0.2s;
+  user-select: none;
+  margin-bottom: 40px;
+}
+
+.input-control:hover {
+  background-color: #c8e6c9;
+}
+
+.input-control:active {
+  transform: scale(0.95);
+}
+
+/* Start button */
+.start-button {
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  padding: 12px 0;
+  font-size: 16px;
+  font-weight: 600;
+  border-radius: 8px;
+  cursor: pointer;
+  width: 100%;
+  margin-top: 15px;
+  transition: background-color 0.3s, transform 0.2s;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.start-button:hover {
+  background-color: #388e3c;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.start-button:active {
+  transform: translateY(0);
+}
+
+/* Utility classes */
 .hidden {
   display: none;
 }
