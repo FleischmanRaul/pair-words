@@ -1021,7 +1021,7 @@ export const a1_de_en: [string, string][] = [
   ["Welle", "wave"],
   ["fallen", "drop"],
   ["Herz", "heart"],
-  ["Uhr", "am"],
+  ["Uhr", "clock"],
   ["vorhanden", "present"],
   ["schwer", "heavy"],
   ["Tanz", "dance"],
