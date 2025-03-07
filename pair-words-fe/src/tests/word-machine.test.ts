@@ -11,12 +11,14 @@ describe("WordMachine", () => {
 
   it("should create a WordMachine instance with valid level", () => {
     const wm = new WordMachine(1);
+
     expect(wm).toBeInstanceOf(WordMachine);
   });
 
   it("should return the correct number of words", () => {
     const wm = new WordMachine(1);
     const words = wm.getWords(5);
+
     expect(Object.keys(words).length).toBe(5);
   });
 
@@ -25,18 +27,21 @@ describe("WordMachine", () => {
     const words = wm.getWords(5);
     const keys = Object.keys(words);
     const uniqueKeys = new Set(keys);
+
     expect(uniqueKeys.size).toBe(keys.length);
   });
 
   it("should return the correct number of selected words for level 1", () => {
     const wm = new WordMachine(1);
     const numberOfSelectedWords = wm.getNumberOfAvailableWords();
+
     expect(numberOfSelectedWords).toEqual(50);
   });
 
   it("should return the correct number of selected words for level 20", () => {
     const wm = new WordMachine(20);
     const numberOfSelectedWords = wm.getNumberOfAvailableWords();
+
     expect(numberOfSelectedWords).toEqual(49);
   });
 });

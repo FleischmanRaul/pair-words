@@ -1,5 +1,5 @@
 import { WordMachine } from "./word-machine";
-import { shuffleStrings } from "./utils";
+import { shuffleItems } from "./utils";
 
 type Dictionary = { [key: string]: string };
 
@@ -57,8 +57,8 @@ export class GamePairNtoN {
     this.startTime = Date.now();
     this.words = this.wordMachine.getWords(this.rows);
     console.log(`Game started with ${this.targetPairs} words to pair.`);
-    this.leftWords = shuffleStrings(Object.keys(this.words));
-    this.rightWords = shuffleStrings(Object.values(this.words));
+    this.leftWords = shuffleItems(Object.keys(this.words));
+    this.rightWords = shuffleItems(Object.values(this.words));
     return {
       leftWords: this.leftWords,
       rightWords: this.rightWords,
@@ -102,8 +102,8 @@ export class GamePairNtoN {
       this.getStateCounter = 0;
       if (emptyCount > 0) {
         const newPairs = this.wordMachine.getWords(emptyCount);
-        const newLeftWords = shuffleStrings(Object.keys(newPairs));
-        const newRightWords = shuffleStrings(Object.values(newPairs));
+        const newLeftWords = shuffleItems(Object.keys(newPairs));
+        const newRightWords = shuffleItems(Object.values(newPairs));
 
         let leftIndex = 0;
         let rightIndex = 0;

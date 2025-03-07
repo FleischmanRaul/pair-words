@@ -14,6 +14,7 @@ describe("GamePairNtoN", () => {
   it("should initialize the game correctly", () => {
     game = new GamePairNtoN(wordMachine, 15, 3);
     const gameState = game.startGame();
+
     expect(gameState.leftWords.length).toBe(3);
     expect(gameState.rightWords.length).toBe(3);
     expect(gameState.incorrectMatches).toBe(0);
@@ -31,6 +32,7 @@ describe("GamePairNtoN", () => {
       expect(isCorrect === true);
       gameState = game.getRefreshedState();
     }
+
     expect(gameState.incorrectMatches).toBe(0);
     expect(gameState.correctMatches).toBe(5);
     expect(gameState.isGameOver).toBe(true);
@@ -54,6 +56,7 @@ describe("GamePairNtoN", () => {
       }
       gameState = game.getRefreshedState();
     }
+
     expect(gameState.incorrectMatches).toBe(incorrectGuesses);
     expect(gameState.correctMatches).toBe(50);
     expect(gameState.isGameOver).toBe(true);
