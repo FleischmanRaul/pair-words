@@ -35,7 +35,7 @@ jobs:
         with:
           node-version: 20
           cache: 'npm'
-        working-directory: ./pair-words-fe
+          working-directory: ./pair-words-fe
       - name: Install dependencies
         run: npm ci
         working-directory: ./pair-words-fe
