@@ -41,3 +41,40 @@ export function shuffleItems<T>(items: T[]): T[] {
 
   return shuffled;
 }
+
+/**
+ * Safely parses integer values with validation
+ * @param value The string value to parse
+ * @param defaultValue Fallback value if parsing fails
+ * @param min Minimum allowed value
+ * @param max Maximum allowed value
+ * @returns The parsed and validated integer
+ */
+export const safeParseInt = (value: string, defaultValue: number, min: number, max: number): number => {
+  const parsed = parseInt(value, 10);
+  if (isNaN(parsed)) return defaultValue;
+  return Math.max(min, Math.min(parsed, max));
+};
+
+/**
+ * Updates an input element's value
+ * @param inputId ID of the input element
+ * @param action 'increment' or 'decrement'
+ */
+export const updateInputValue = (inputId: string, action: string): void => {
+  const input = document.getElementById(inputId) as HTMLInputElement;
+  if (!input) return;
+
+  const currentValue = parseInt(input.value, 10) || 1;
+  const min = parseInt(input.min, 10) || 1;
+  const max = parseInt(input.max, 10) || 100;
+
+  if (action === "increment") {
+    input.value = Math.min(currentValue + 1, max).toString();
+  } else if (action === "decrement") {
+    input.value = Math.max(currentValue - 1, min).toString();
+  }
+
+  // Trigger an input event to notify any listeners
+  input.dispatchEvent(new Event("input", { bubbles: true }));
+};

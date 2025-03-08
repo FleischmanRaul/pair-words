@@ -14,7 +14,7 @@ type GameToolbarElements = {
   returnButton: HTMLButtonElement;
 };
 
-export class gameUI {
+export class GameUI {
   private game: GamePairNtoN;
   private gameState: GameState;
   private gameBoardElements: GameBoardElements;

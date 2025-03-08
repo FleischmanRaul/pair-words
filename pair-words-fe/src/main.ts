@@ -1,40 +1,101 @@
 import { domElements } from "./dom-elements";
-import { gameUI } from "./game-ui";
+import { GameUI } from "./game-ui";
+import { safeParseInt, updateInputValue } from "./utils";
 
-document.getElementById("start")?.addEventListener("click", () => {
-  const pairTarget = parseInt(domElements.pairTargetInput.value);
-  const rowNumber = parseInt(domElements.rowNumberInput.value);
-  const currentLevel = parseInt(domElements.level.value);
+interface InputControlElement extends HTMLElement {
+  dataset: {
+    action?: string;
+    target?: string;
+  };
+}
+
+const STORAGE_KEYS = {
+  PAIR_TARGET: "languageGame_pairTarget",
+  ROW_NUMBER: "languageGame_rowNumber",
+  LEVEL: "languageGame_level",
+};
+
+const saveGameParameters = (): void => {
+  if (!domElements.pairTargetInput || !domElements.rowNumberInput || !domElements.level) {
+    console.error("Cannot save game parameters: Elements not found");
+    return;
+  }
+
+  localStorage.setItem(STORAGE_KEYS.PAIR_TARGET, domElements.pairTargetInput.value);
+  localStorage.setItem(STORAGE_KEYS.ROW_NUMBER, domElements.rowNumberInput.value);
+  localStorage.setItem(STORAGE_KEYS.LEVEL, domElements.level.value);
+
+  console.log("Game parameters saved to local storage");
+};
+
+const loadGameParameters = (): void => {
+  if (!domElements.pairTargetInput || !domElements.rowNumberInput || !domElements.level) {
+    console.error("Cannot load game parameters: Elements not found");
+    return;
+  }
+
+  const savedPairTarget = localStorage.getItem(STORAGE_KEYS.PAIR_TARGET);
+  const savedRowNumber = localStorage.getItem(STORAGE_KEYS.ROW_NUMBER);
+  const savedLevel = localStorage.getItem(STORAGE_KEYS.LEVEL);
+
+  if (savedPairTarget) domElements.pairTargetInput.value = savedPairTarget;
+  if (savedRowNumber) domElements.rowNumberInput.value = savedRowNumber;
+  if (savedLevel) domElements.level.value = savedLevel;
+
+  console.log("Game parameters loaded from local storage");
+};
+
+const initializeGame = (): void => {
+  if (!domElements.pairTargetInput || !domElements.rowNumberInput || !domElements.level) {
+    console.error("Required game elements not found in the DOM");
+    return;
+  }
+
+  const pairTarget = safeParseInt(domElements.pairTargetInput.value, 10, 1, 500);
+  const rowNumber = safeParseInt(domElements.rowNumberInput.value, 5, 1, 10);
+  const currentLevel = safeParseInt(domElements.level.value, 1, 1, 20);
+
   console.log(`Pair Target: ${pairTarget}, Row Number: ${rowNumber}, Level: ${currentLevel}`);
 
-  domElements.menu?.classList.add("hidden");
-  domElements.game?.classList.remove("hidden");
-  new gameUI(currentLevel, pairTarget, rowNumber);
-});
+  saveGameParameters();
 
-document.addEventListener("DOMContentLoaded", function () {
-  // Set up event handlers for the increment/decrement buttons
-  document.querySelectorAll(".input-control").forEach((button) => {
-    button.addEventListener("click", function (this: HTMLElement) {
-      const action = this.dataset.action;
-      const targetId = this.dataset.target;
-      if (!action || !targetId) return;
-      const input = document.getElementById(targetId);
+  if (domElements.menu && domElements.game) {
+    domElements.menu.classList.add("hidden");
+    domElements.game.classList.remove("hidden");
 
-      if (!input) return;
+    new GameUI(currentLevel, pairTarget, rowNumber);
+  } else {
+    console.error("Game or menu elements not found in the DOM");
+  }
+};
 
-      const currentValue = parseInt((input as HTMLInputElement).value, 10);
-      const min = parseInt((input as HTMLInputElement).min, 10) || 1;
-      const max = parseInt((input as HTMLInputElement).max, 10) || 100;
+// Initialize the menu when DOM is loaded
+document.addEventListener("DOMContentLoaded", () => {
+  loadGameParameters();
 
-      if (action === "increment") {
-        (input as HTMLInputElement).value = Math.min(currentValue + 1, max).toString();
-      } else if (action === "decrement") {
-        (input as HTMLInputElement).value = Math.max(currentValue - 1, min).toString();
+  const startButton = document.getElementById("start");
+  if (startButton) {
+    startButton.addEventListener("click", initializeGame);
+  } else {
+    console.error("Start button not found in the DOM");
+  }
+
+  document.addEventListener("click", (event) => {
+    const target = event.target as HTMLElement;
+
+    if (target.classList.contains("input-control")) {
+      const button = target as InputControlElement;
+      const action = button.dataset.action;
+      const targetId = button.dataset.target;
+
+      if (action && targetId) {
+        updateInputValue(targetId, action);
+        saveGameParameters();
       }
+    }
+  });
 
-      // Trigger an input event to notify any listeners
-      input.dispatchEvent(new Event("input", { bubbles: true }));
-    });
+  document.querySelectorAll("input[type='number']").forEach((input) => {
+    input.addEventListener("change", saveGameParameters);
   });
 });
