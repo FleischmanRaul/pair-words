@@ -36,19 +36,21 @@ jobs:
           node-version: 20
           cache: 'npm'
       - name: Install dependencies
-        working-directory: ./pair-words-fe
-        run: npm ci
+        run: |
+          cd pair-words-fe
+          npm ci
       - name: Build
         working-directory: ./pair-words-fe
-        run: npm run build
+        run: |
+          cd pair-words-fe
+          npm run build
       - name: Setup Pages
         uses: actions/configure-pages@v4
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
-        working-directory: ./pair-words-fe
         with:
           # Upload dist folder
-          path: './dist'
+          path: './pair-words-fe/dist'
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
